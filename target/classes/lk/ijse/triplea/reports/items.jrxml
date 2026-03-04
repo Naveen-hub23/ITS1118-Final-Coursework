@@ -1,0 +1,83 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="TripleA_Inventory" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e6d1c7a0-9c2b-4e8a-8d4f-7b5a4c3e2d1f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MYSQL-TRIPLEA"/>
+	<query language="SQL"><![CDATA[SELECT id, name, qty, unit_price FROM item]]></query>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="qty" class="java.lang.Integer"/>
+	<field name="unit_price" class="java.math.BigDecimal"/>
+	<variable name="total_value" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{unit_price}.multiply(new java.math.BigDecimal($F{qty}))]]></expression>
+	</variable>
+	<variable name="grand_total" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$V{total_value}]]></expression>
+	</variable>
+	<title height="100">
+		<element kind="rectangle" uuid="a6b5c4d3-e2f1-4a0b-9c8d-7e6f5a4b3c2d" x="-20" y="-20" width="595" height="110" backcolor="#D85945">
+			<pen lineWidth="0.0"/>
+		</element>
+		<element kind="staticText" uuid="b1c2d3e4-f5a6-4b7c-8d9e-0f1a2b3c4d5e" x="20" y="0" width="240" height="40" forecolor="#FFFFFF" fontSize="28.0" bold="true">
+			<text><![CDATA[Triple A]]></text>
+		</element>
+		<element kind="staticText" uuid="c2d3e4f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f" x="20" y="40" width="240" height="20" forecolor="#FFE0B2" fontSize="13.0" italic="true" bold="true">
+			<text><![CDATA[Cake Decor and Tools]]></text>
+		</element>
+		<element kind="staticText" uuid="d3e4f5a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a" x="330" y="10" width="205" height="30" forecolor="#FFFFFF" fontSize="18.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Item Report]]></text>
+		</element>
+		<element kind="textField" uuid="e4f5a6b7-c8d9-4e0f-1a2b-3c4d5e6f7a8b" x="330" y="40" width="205" height="20" forecolor="#FFFFFF" pattern="MMMMM dd, yyyy" hTextAlign="Right">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</title>
+	<columnHeader height="40">
+		<element kind="staticText" uuid="f5a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c" mode="Opaque" x="0" y="10" width="80" height="30" forecolor="#FFFFFF" backcolor="#D85945" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Item ID]]></text>
+		</element>
+		<element kind="staticText" uuid="a7b8c9d0-e1f2-4a3b-b4c5-d6e7f8a9b0c1" mode="Opaque" x="80" y="10" width="200" height="30" forecolor="#FFFFFF" backcolor="#D85945" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Item Name]]></text>
+		</element>
+		<element kind="staticText" uuid="b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e" mode="Opaque" x="280" y="10" width="80" height="30" forecolor="#FFFFFF" backcolor="#D85945" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Quantity]]></text>
+		</element>
+		<element kind="staticText" uuid="c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f" mode="Opaque" x="360" y="10" width="95" height="30" forecolor="#FFFFFF" backcolor="#D85945" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Unit Price]]></text>
+		</element>
+		<element kind="staticText" uuid="d0e1f2a3-b4c5-5d6e-7f8a-9b0c1d2e3f4a" mode="Opaque" x="455" y="10" width="100" height="30" forecolor="#FFFFFF" backcolor="#D85945" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Stock Value]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<element kind="textField" uuid="e1f2a3b4-c5d6-6e7f-8a9b-0c1d2e3f4a5b" x="0" y="0" width="80" height="25" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{id}]]></expression>
+			</element>
+			<element kind="textField" uuid="f2a3b4c5-d6e7-7f8a-9b0c-1d2e3f4a5b6c" x="80" y="0" width="200" height="25" vTextAlign="Middle">
+				<expression><![CDATA[$F{name}]]></expression>
+			</element>
+			<element kind="textField" uuid="a3b4c5d6-e7f8-8f9a-0b1c-2d3e4f5a6b7c" x="280" y="0" width="80" height="25" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{qty}]]></expression>
+			</element>
+			<element kind="textField" uuid="b4c5d6e7-f8a9-9f0a-1b2c-3d4e5f6a7b8c" x="360" y="0" width="95" height="25" pattern="#,##0.00" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{unit_price}]]></expression>
+			</element>
+			<element kind="textField" uuid="c5d6e7f8-a9b0-0f1a-2b3c-4d5e6f7a8b9c" x="455" y="0" width="100" height="25" pattern="#,##0.00" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$V{total_value}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="60">
+		<element kind="rectangle" uuid="d6e7f8a9-b0c1-1f2a-3b4c-5d6e7f8a9b0c" x="300" y="10" width="255" height="35" backcolor="#FFF8E7" radius="10">
+			<pen lineWidth="0.5" lineColor="#D85945"/>
+		</element>
+		<element kind="staticText" uuid="e7f8a9b0-c1d2-2f3a-4b5c-6d7e8f9a0b1c" x="310" y="12" width="120" height="30" forecolor="#4E342E" fontSize="11.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Total Stock Value Rs :]]></text>
+		</element>
+		<element kind="textField" uuid="f8a9b0c1-d2e3-3f4a-5b6c-7d8e9f0a1b2c" x="430" y="12" width="115" height="30" forecolor="#D85945" fontSize="13.0" pattern="#,##0.00" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$V{grand_total}]]></expression>
+		</element>
+		<element kind="staticText" uuid="a9b0c1d2-e3f4-4f5a-6b7c-8d9e0f1a2b3c" x="0" y="45" width="555" height="15" forecolor="#8D6E63" fontSize="9.0" italic="true" bold="true" hTextAlign="Center">
+			<text><![CDATA[Triple A • Professional Baking Solutions]]></text>
+		</element>
+	</summary>
+</jasperReport>

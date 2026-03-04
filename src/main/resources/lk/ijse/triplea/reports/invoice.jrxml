@@ -1,0 +1,124 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="TripleA_Professional_Invoice" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MYSQL-TRIPLEA"/>
+	<parameter name="OrderID" class="java.lang.String"/>
+	<parameter name="CashReceived" class="java.lang.Double"/>
+	<query language="sql"><![CDATA[SELECT 
+			i.name AS ItemName,
+			od.qty AS Qty,
+			od.unit_price AS UnitPrice,
+			(od.qty * od.unit_price) AS Total
+		FROM order_details od
+		INNER JOIN item i ON od.item_id = i.id
+		WHERE od.order_id = $P{OrderID}]]></query>
+	<field name="ItemName" class="java.lang.String"/>
+	<field name="Qty" class="java.lang.Integer"/>
+	<field name="UnitPrice" class="java.lang.Double"/>
+	<field name="Total" class="java.lang.Double"/>
+	<variable name="NetTotal" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{Total}]]></expression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<title height="95" splitType="Stretch">
+		<element kind="textField" uuid="a1b2c3d4-1111-2222-3333-444455556666" x="0" y="0" width="555" height="35" forecolor="#000000" fontSize="24.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA["Triple A"]]></expression>
+		</element>
+		<element kind="textField" uuid="b2c3d4e5-1111-2222-3333-444455556666" x="0" y="35" width="555" height="20" forecolor="#000000" fontSize="12.0" italic="true" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA["Cake Decor and Tools"]]></expression>
+		</element>
+		<element kind="staticText" uuid="c3d4e5f6-1111-2222-3333-444455556666" x="0" y="60" width="555" height="20" forecolor="#000000" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[130, Main Street, Galle]]></text>
+		</element>
+	</title>
+	<pageHeader height="50" splitType="Stretch">
+		<element kind="staticText" uuid="d1e2f3a1-1111-2222-3333-444455556666" x="0" y="5" width="35" height="20" fontSize="10.0" bold="false" vTextAlign="Middle">
+			<text><![CDATA[Date:]]></text>
+		</element>
+		<element kind="textField" uuid="e2f3a4b2-1111-2222-3333-444455556666" x="35" y="5" width="100" height="20" fontSize="10.0" pattern="yyyy-MM-dd" vTextAlign="Middle">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="f3a4b5c3-1111-2222-3333-444455556666" x="0" y="25" width="50" height="20" fontSize="10.0" bold="false" vTextAlign="Middle">
+			<text><![CDATA[Order ID:]]></text>
+		</element>
+		<element kind="textField" uuid="a4b5c6d4-1111-2222-3333-444455556666" x="50" y="25" width="100" height="20" forecolor="#000000" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$P{OrderID}]]></expression>
+		</element>
+		<element kind="staticText" uuid="b5c6d7e5-1111-2222-3333-444455556666" x="435" y="5" width="30" height="20" fontSize="10.0" bold="false" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Time:]]></text>
+		</element>
+		<element kind="textField" uuid="c6d7e8f6-1111-2222-3333-444455556666" x="465" y="5" width="90" height="20" fontSize="10.0" pattern="h:mm a" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="25" splitType="Stretch">
+		<element kind="line" uuid="d7e8f9a7-1111-2222-3333-444455556666" x="0" y="0" width="555" height="1">
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</element>
+		<element kind="staticText" uuid="e8f9a0b8-1111-2222-3333-444455556666" x="0" y="1" width="220" height="23" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<text><![CDATA[Item Name]]></text>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+		</element>
+		<element kind="staticText" uuid="f9a0b1c2-1111-2222-3333-444455556666" x="220" y="1" width="60" height="23" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[QTY]]></text>
+		</element>
+		<element kind="staticText" uuid="a0b1c2d3-1111-2222-3333-444455556666" x="280" y="1" width="100" height="23" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Unit Price]]></text>
+		</element>
+		<element kind="staticText" uuid="b1c2d3e4-1111-2222-3333-444455556666" x="380" y="1" width="175" height="23" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Total]]></text>
+		</element>
+		<element kind="line" uuid="c2d3e4f5-1111-2222-3333-444455556666" x="0" y="24" width="555" height="1">
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<element kind="textField" uuid="d3e4f5a6-1111-2222-3333-444455556666" x="0" y="0" width="220" height="20" textAdjust="StretchHeight" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph leftIndent="5"/>
+				<expression><![CDATA[$F{ItemName}]]></expression>
+			</element>
+			<element kind="textField" uuid="e4f5a6b7-1111-2222-3333-444455556666" x="220" y="0" width="60" height="20" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{Qty}]]></expression>
+			</element>
+			<element kind="textField" uuid="f5a6b7c8-1111-2222-3333-444455556666" x="280" y="0" width="100" height="20" pattern="#,##0.00" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{UnitPrice}]]></expression>
+			</element>
+			<element kind="textField" uuid="a6b7c8d9-1111-2222-3333-444455556666" x="380" y="0" width="175" height="20" pattern="#,##0.00" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{Total}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="120" splitType="Stretch">
+		<element kind="line" uuid="b7c8d9e0-1111-2222-3333-444455556666" x="0" y="5" width="555" height="1">
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</element>
+		<element kind="staticText" uuid="c8d9e0f1-1111-2222-3333-444455556666" x="300" y="15" width="100" height="18" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Net Total:]]></text>
+		</element>
+		<element kind="textField" uuid="d9e0f1a2-1111-2222-3333-444455556666" x="400" y="15" width="155" height="18" pattern="#,##0.00" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$V{NetTotal}]]></expression>
+		</element>
+		<element kind="staticText" uuid="e0f1a2b3-1111-2222-3333-444455556666" x="300" y="33" width="100" height="18" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Cash Received:]]></text>
+		</element>
+		<element kind="textField" uuid="f1a2b3c4-1111-2222-3333-444455556666" x="400" y="33" width="155" height="18" pattern="#,##0.00" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$P{CashReceived}]]></expression>
+		</element>
+		<element kind="staticText" uuid="a2b3c4d5-1111-2222-3333-444455556666" x="300" y="55" width="100" height="20" fontSize="12.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Balance:]]></text>
+		</element>
+		<element kind="textField" uuid="b3c4d5e6-1111-2222-3333-444455556666" x="400" y="55" width="155" height="20" fontSize="12.0" pattern="#,##0.00" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[($P{CashReceived} != null ? $P{CashReceived} : 0.0) - ($V{NetTotal} != null ? $V{NetTotal} : 0.0)]]></expression>
+		</element>
+		<element kind="line" uuid="c4d5e6f7-1111-2222-3333-444455556666" x="0" y="80" width="555" height="1">
+			<pen lineStyle="Dashed"/>
+		</element>
+		<element kind="textField" uuid="d5e6f7a8-1111-2222-3333-444455556666" x="0" y="85" width="555" height="15" italic="true" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA["Triple A • Professional Baking Solutions"]]></expression>
+		</element>
+		<element kind="staticText" uuid="e6f7a8b9-1111-2222-3333-444455556666" x="0" y="100" width="555" height="15" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Thank you, come again]]></text>
+		</element>
+	</summary>
+</jasperReport>
