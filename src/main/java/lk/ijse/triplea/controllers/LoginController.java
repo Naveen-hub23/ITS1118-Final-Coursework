@@ -80,6 +80,8 @@ public class LoginController {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Database Error.");
         }
+
+        clearFields();
     }
 
     private void navigateToDashboard() throws IOException {
@@ -165,6 +167,11 @@ public class LoginController {
 
     public static boolean isCashier() {
         return "CASHIER".equals(currentUserRole);
+    }
+
+    public void clearFields() {
+        usernameField.setText("");
+        passwordField.setText("");
     }
 
 }

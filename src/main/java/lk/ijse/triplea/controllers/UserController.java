@@ -302,9 +302,6 @@ public class UserController implements Initializable {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // --- THE FIX ---
-            // Instead of making a new Scene, just replace the content (Root)
-            // This keeps the Maximized state, Width, and Height exactly as they are.
             stage.getScene().setRoot(root);
 
         } catch (IOException e) {
@@ -343,11 +340,6 @@ public class UserController implements Initializable {
         navigateTo("/User.fxml", event);
     }
 
-    @FXML
-    private void btnSupplierItemsOnAction(ActionEvent event) {
-        // Change "SupplierItemForm.fxml" to whatever you named that file!
-        navigateTo("/SupplierItem.fxml", event);
-    }
 
     @FXML
     private void btnLogoutOnAction(ActionEvent event) {

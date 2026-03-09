@@ -263,12 +263,6 @@ public class ItemController implements Initializable {
     }
 
     @FXML
-    private void btnSupplierItemsOnAction(ActionEvent event) {
-        // Change "SupplierItemForm.fxml" to whatever you named that file!
-        navigateTo("/SupplierItem.fxml", event);
-    }
-
-    @FXML
     private void btnLogoutOnAction(ActionEvent event) {
         navigateTo("/Login.fxml", event);
     }

@@ -218,15 +218,6 @@ public class DashboardController {
     }
 
     @FXML
-    private void btnSupplierItemsOnAction(ActionEvent event) {
-        if (LoginController.isOwner() || LoginController.isAssistant()) {
-            navigateTo("/SupplierItem.fxml", event);
-        } else {
-            showAccessDenied();
-        }
-    }
-
-    @FXML
     void btnLogoutOnAction(ActionEvent event) {
         navigateTo("/Login.fxml", event);
     }
