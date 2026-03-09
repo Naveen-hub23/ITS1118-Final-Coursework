@@ -231,9 +231,6 @@ public class SupplierController implements Initializable {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // --- THE FIX ---
-            // Instead of making a new Scene, just replace the content (Root)
-            // This keeps the Maximized state, Width, and Height exactly as they are.
             stage.getScene().setRoot(root);
 
         } catch (IOException e) {
@@ -271,11 +268,6 @@ public class SupplierController implements Initializable {
     @FXML
     private void btnUserManagementOnAction(ActionEvent event) {
         navigateTo("/User.fxml", event);
-    }
-
-    @FXML
-    private void btnSupplierItemsOnAction(ActionEvent event) {
-        navigateTo("/SupplierItem.fxml", event);
     }
 
     @FXML

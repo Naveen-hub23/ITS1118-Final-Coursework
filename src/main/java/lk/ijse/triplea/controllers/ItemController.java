@@ -8,19 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.triplea.bo.BOFactory;
+import lk.ijse.triplea.bo.custom.ItemBO;
 import lk.ijse.triplea.dto.ItemDTO;
-import lk.ijse.triplea.model.ItemModel;
 import lk.ijse.triplea.util.RegexUtil;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -53,22 +52,20 @@ public class ItemController implements Initializable {
     @FXML
     private TableColumn<ItemDTO, Double> colUnitPrice;
 
-    private final ItemModel itemModel = new ItemModel();
+    // Dependency Injection via Factory (Layered Architecture approach)
+    ItemBO itemBO = (ItemBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
 
         loadItemTable();
-
     }
 
-    private boolean isValied() {
-
+    private boolean isValid() {
         boolean id = idField.getText().matches(RegexUtil.ID);
         boolean name = nameField.getText().matches(RegexUtil.NAME);
         boolean qty = qtyField.getText().matches(RegexUtil.QTY);
@@ -82,18 +79,14 @@ public class ItemController implements Initializable {
         return id && name && qty && price;
     }
 
-
-
     @FXML
     private void saveItem() {
-        if(isValied()) {
+        if (isValid()) {
             try {
-
                 if (nameField.getText().isEmpty() || qtyField.getText().isEmpty() || unitPriceField.getText().isEmpty()) {
                     new Alert(Alert.AlertType.WARNING, "Please fill all fields").show();
                     return;
                 }
-
 
                 ItemDTO dto = new ItemDTO(
                         nameField.getText(),
@@ -101,28 +94,27 @@ public class ItemController implements Initializable {
                         Double.parseDouble(unitPriceField.getText())
                 );
 
-                if (itemModel.saveItem(dto)) {
-                    new Alert(Alert.AlertType.INFORMATION, "Item Saved").show();
+                if (itemBO.saveItem(dto)) {
+                    new Alert(Alert.AlertType.INFORMATION, "Item Saved Successfully").show();
                     loadItemTable();
                     clearFields();
                 }
-            } catch (NumberFormatException e) {
-                new Alert(Alert.AlertType.ERROR, "Invalid input").show();
-
             } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Error saving item").show();
+                new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).show();
             }
-        }
-        else{
-            new Alert(Alert.AlertType.ERROR, "Please correct the fields").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Please correct the highlighted fields").show();
         }
     }
 
     @FXML
     private void handleUpdateItem() {
-
         try {
+            if (idField.getText().isEmpty()) {
+                new Alert(Alert.AlertType.WARNING, "Please select an item first").show();
+                return;
+            }
+
             ItemDTO dto = new ItemDTO(
                     Integer.parseInt(idField.getText()),
                     nameField.getText(),
@@ -130,75 +122,61 @@ public class ItemController implements Initializable {
                     Double.parseDouble(unitPriceField.getText())
             );
 
-            if (itemModel.updateItem(dto)) {
-                new Alert(Alert.AlertType.INFORMATION, "Item Updated").show();
+            if (itemBO.updateItem(dto)) {
+                new Alert(Alert.AlertType.INFORMATION, "Item Updated Successfully").show();
                 loadItemTable();
                 clearFields();
             }
-        }catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error updating item").show();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Update Failed: " + e.getMessage()).show();
         }
     }
 
     @FXML
     private void handleDeleteItem() {
-
         try {
-            if(idField.getText().isEmpty()) {
-                new Alert(Alert.AlertType.WARNING, "Please enter ID").show();
+            if (idField.getText().isEmpty()) {
+                new Alert(Alert.AlertType.WARNING, "Please enter or select an ID").show();
                 return;
             }
             int id = Integer.parseInt(idField.getText());
 
-            if (itemModel.deleteItem(id)) {
-                new Alert(Alert.AlertType.INFORMATION, "Item Deleted").show();
+            if (itemBO.deleteItem(id)) {
+                new Alert(Alert.AlertType.INFORMATION, "Item Deleted Successfully").show();
                 loadItemTable();
                 clearFields();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error deleting item").show();
+            new Alert(Alert.AlertType.ERROR, "Delete Failed: " + e.getMessage()).show();
         }
     }
 
     @FXML
-    private void handleResetFields() {
-        clearFields();
-    }
-
-    @FXML
     private void handleSearchItem(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            String idText = idField.getText();
+            if (idText.isEmpty()) return;
 
-       if(event.getCode() == KeyCode.ENTER){
-         String idText = idField.getText();
-         if(idText.isEmpty()) return;
+            try {
+                ItemDTO item = itemBO.searchItem(Integer.parseInt(idText));
 
-         try{
-             ItemDTO item = ItemModel.searchItem(Integer.parseInt(idText));
-
-             if(item != null){
-                 nameField.setText(item.getName());
-                 qtyField.setText(String.valueOf(item.getQty()));
-                 unitPriceField.setText(String.valueOf(item.getUnitPrice()));
-             }else{
-                 new Alert(Alert.AlertType.WARNING, "Invalid ID").show();
-                 clearFields();
-             }
-         }catch(SQLException e){
-             e.printStackTrace();
-             new Alert(Alert.AlertType.ERROR, "Error searching item").show();
-         }catch(NumberFormatException e){
-             new Alert(Alert.AlertType.ERROR, "Enter Valid ID").show();
-         }
-
-       }
+                if (item != null) {
+                    nameField.setText(item.getName());
+                    qtyField.setText(String.valueOf(item.getQty()));
+                    unitPriceField.setText(String.valueOf(item.getUnitPrice()));
+                } else {
+                    new Alert(Alert.AlertType.WARNING, "No Item found for ID: " + idText).show();
+                    clearFields();
+                }
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Search Error").show();
+            }
+        }
     }
 
     private void loadItemTable() {
-
         try {
-            List<ItemDTO> list = itemModel.getAllItems();
+            List<ItemDTO> list = itemBO.getAllItems();
             ObservableList<ItemDTO> obList = FXCollections.observableArrayList(list);
             tableItem.setItems(obList);
         } catch (Exception e) {
@@ -207,29 +185,31 @@ public class ItemController implements Initializable {
     }
 
     private void clearFields() {
-
         idField.clear();
         nameField.clear();
         qtyField.clear();
         unitPriceField.clear();
+        idField.setStyle(null);
+        nameField.setStyle(null);
+        qtyField.setStyle(null);
+        unitPriceField.setStyle(null);
     }
-
 
     private void navigateTo(String fxmlPath, ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/triplea" + fxmlPath));
-
+            // Updated path to reflect the new package structure
+            Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/tripleaadheretola/view" + fxmlPath));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // --- THE FIX ---
-            // Instead of making a new Scene, just replace the content (Root)
-            // This keeps the Maximized state, Width, and Height exactly as they are.
             stage.getScene().setRoot(root);
-
         } catch (IOException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Navigation Error: " + e.getMessage()).show();
         }
+    }
+
+    @FXML
+    private void handleResetFields() {
+        clearFields();
     }
 
     @FXML
@@ -263,14 +243,7 @@ public class ItemController implements Initializable {
     }
 
     @FXML
-    private void btnSupplierItemsOnAction(ActionEvent event) {
-        // Change "SupplierItemForm.fxml" to whatever you named that file!
-        navigateTo("/SupplierItem.fxml", event);
-    }
-
-    @FXML
     private void btnLogoutOnAction(ActionEvent event) {
         navigateTo("/Login.fxml", event);
     }
-
 }
