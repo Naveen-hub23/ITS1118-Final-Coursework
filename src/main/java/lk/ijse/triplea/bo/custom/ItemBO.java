@@ -16,4 +16,10 @@ public interface ItemBO extends SuperBO {
     ItemDTO searchItem(int id) throws SQLException, ClassNotFoundException;
 
     ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException;
+
+    ArrayList<ItemDTO> getLowStockItems() throws SQLException, ClassNotFoundException;
+
+    int getItemCount() throws SQLException, ClassNotFoundException;
+
+    int getLowStockCount() throws SQLException, ClassNotFoundException;
 }

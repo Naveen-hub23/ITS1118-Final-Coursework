@@ -1,6 +1,5 @@
 package lk.ijse.triplea.dao.custom;
 
-
 import lk.ijse.triplea.dao.CrudDAO;
 import lk.ijse.triplea.entity.User;
 

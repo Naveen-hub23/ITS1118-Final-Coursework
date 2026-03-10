@@ -43,4 +43,31 @@ public class ItemDAOImpl implements ItemDAO {
         }
         return list;
     }
+
+    @Override
+    public boolean updateQty(int itemId, int qty) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("UPDATE item SET qty = qty - ? WHERE id = ?", qty, itemId);
+    }
+
+    @Override
+    public ArrayList<Item> getLowStockItems() throws SQLException, ClassNotFoundException {
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM item WHERE qty <= 20");
+        ArrayList<Item> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(new Item(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getDouble(4)));
+        }
+        return list;
+    }
+
+    @Override
+    public int getItemCount() throws SQLException, ClassNotFoundException {
+        ResultSet rs = CRUDUtil.execute("SELECT COUNT(*) FROM item");
+        return rs.next() ? rs.getInt(1) : 0;
+    }
+
+    @Override
+    public int getLowStockCount() throws SQLException, ClassNotFoundException {
+        ResultSet rs = CRUDUtil.execute("SELECT COUNT(*) FROM item WHERE qty <= 20");
+        return rs.next() ? rs.getInt(1) : 0;
+    }
 }

@@ -95,4 +95,16 @@ public class LoginController {
         alert.setContentText(msg);
         alert.show();
     }
+
+    public static boolean isOwner() {
+        return "OWNER".equalsIgnoreCase(currentUserRole);
+    }
+
+    public static boolean isAssistant() {
+        return "ASSISTANT".equalsIgnoreCase(currentUserRole);
+    }
+
+    public static boolean isCashier() {
+        return "CASHIER".equalsIgnoreCase(currentUserRole);
+    }
 }

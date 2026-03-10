@@ -47,5 +47,10 @@ public class SupplierBOImpl implements SupplierBO {
         }
         return allDTO;
     }
+
+    @Override
+    public int getSupplierCount() throws SQLException, ClassNotFoundException {
+        return supplierDAO.getSupplierCount();
+    }
 }
 

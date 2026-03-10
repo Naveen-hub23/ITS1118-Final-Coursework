@@ -1,8 +1,6 @@
 package lk.ijse.triplea.bo;
 
-import lk.ijse.triplea.bo.custom.impl.ItemBOImpl;
-import lk.ijse.triplea.bo.custom.impl.SupplierBOImpl;
-import lk.ijse.triplea.bo.custom.impl.UserBOImpl;
+import lk.ijse.triplea.bo.custom.impl.*;
 
 public class BOFactory {
     private static BOFactory boFactory;
@@ -14,7 +12,7 @@ public class BOFactory {
         return (boFactory == null) ? boFactory = new BOFactory() : boFactory;
     }
 
-    public enum BOTypes {ITEM, SUPPLIER, USER}
+    public enum BOTypes {ITEM, SUPPLIER, USER, PURCHASE_ORDER, ORDER};
 
     public SuperBO getBO(BOTypes types) {
         switch (types) {
@@ -24,6 +22,10 @@ public class BOFactory {
                 return new SupplierBOImpl();
             case USER:
                 return new UserBOImpl();
+            case PURCHASE_ORDER:
+                return new PurchaseOrderBOImpl();
+            case ORDER:
+                return new OrderBOImpl();
             default:
                 return null;
         }

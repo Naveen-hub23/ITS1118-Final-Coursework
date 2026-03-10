@@ -5,6 +5,7 @@ import lk.ijse.triplea.dao.DAOFactory;
 import lk.ijse.triplea.dao.custom.ItemDAO;
 import lk.ijse.triplea.dto.ItemDTO;
 import lk.ijse.triplea.entity.Item;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -47,5 +48,25 @@ public class ItemBOImpl implements ItemBO {
             allDTO.add(new ItemDTO(i.getId(), i.getName(), i.getQty(), i.getUnitPrice()));
         }
         return allDTO;
+    }
+
+    @Override
+    public int getItemCount() throws SQLException, ClassNotFoundException {
+        return itemDAO.getItemCount();
+    }
+
+    @Override
+    public int getLowStockCount() throws SQLException, ClassNotFoundException {
+        return itemDAO.getLowStockCount();
+    }
+
+    @Override
+    public ArrayList<ItemDTO> getLowStockItems() throws SQLException, ClassNotFoundException {
+        ArrayList<Item> items = itemDAO.getLowStockItems();
+        ArrayList<ItemDTO> dtos = new ArrayList<>();
+        for (Item i : items) {
+            dtos.add(new ItemDTO(i.getId(), i.getName(), i.getQty(), i.getUnitPrice()));
+        }
+        return dtos;
     }
 }
