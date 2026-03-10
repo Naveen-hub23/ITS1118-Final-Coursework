@@ -43,7 +43,7 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
                 connection.rollback();
                 return false;
             }
-
+            
             // 2. Save Order Details & Update Stock
             for (OrderDetailDTO detail : dto.getDetails()) {
                 if (!orderDetailDAO.save(new OrderDetail(detail.getOrderId(), detail.getItemId(), detail.getQty(), detail.getUnitPrice()))) {

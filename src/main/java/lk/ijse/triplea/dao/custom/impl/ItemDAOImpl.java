@@ -67,7 +67,8 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public int getLowStockCount() throws SQLException, ClassNotFoundException {
-        ResultSet rs = CRUDUtil.execute("SELECT COUNT(*) FROM item WHERE qty <= 20");
+        // This ensures we only count items that are low but NOT negative
+        ResultSet rs = CRUDUtil.execute("SELECT COUNT(*) FROM item WHERE qty <= 20 AND qty >= 0");
         return rs.next() ? rs.getInt(1) : 0;
     }
 }

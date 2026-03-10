@@ -8,4 +8,6 @@ import java.util.Map;
 public interface OrderBO extends SuperBO {
 
     Map<String, Double> getDailySalesChartData() throws SQLException, ClassNotFoundException;
+
+    void printOrderReport() throws Exception;
 }

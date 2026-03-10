@@ -22,4 +22,6 @@ public interface ItemBO extends SuperBO {
     int getItemCount() throws SQLException, ClassNotFoundException;
 
     int getLowStockCount() throws SQLException, ClassNotFoundException;
+
+    void printItemReport() throws Exception;
 }

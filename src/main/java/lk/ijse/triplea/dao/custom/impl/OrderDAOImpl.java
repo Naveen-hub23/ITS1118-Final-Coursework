@@ -7,6 +7,8 @@ import lk.ijse.triplea.entity.Order;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class OrderDAOImpl implements OrderDAO {
@@ -45,6 +47,25 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public ArrayList<Order> getAll() {
         return null;
+    }
+
+    @Override
+    public Map<String, Double> getDailySalesChartData() throws SQLException, ClassNotFoundException {
+        Map<String, Double> data = new LinkedHashMap<>();
+
+        // SQL to get last 7 days of sales
+        String sql = "SELECT order_date, SUM(total_amount) AS daily_total " +
+                "FROM orders " +
+                "GROUP BY order_date " +
+                "ORDER BY order_date ASC " +
+                "LIMIT 7";
+
+        ResultSet rs = CRUDUtil.execute(sql);
+
+        while (rs.next()) {
+            data.put(rs.getString("order_date"), rs.getDouble("daily_total"));
+        }
+        return data;
     }
 }
 

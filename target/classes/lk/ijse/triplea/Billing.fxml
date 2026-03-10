@@ -30,7 +30,7 @@
                         </Button>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/bill%20(1).png" />
+                        <Image url="@images/bill_1.png" />
                      </image>
                         </ImageView>
                         <Label alignment="CENTER" prefHeight="66.0" prefWidth="350.0" text="Billing Management" textFill="#101010" underline="true">

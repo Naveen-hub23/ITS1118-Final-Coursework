@@ -58,7 +58,7 @@ public class LoginController {
     }
 
     private void navigateToDashboard() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/tripleaadheretola/view/Dashboard.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/triplea/Dashboard.fxml"));
         Stage dashboardStage = new Stage();
         dashboardStage.setScene(new Scene(root));
         dashboardStage.setTitle("Triple A Cake Decor - Dashboard");
@@ -77,7 +77,7 @@ public class LoginController {
 
         if (username.equalsIgnoreCase("owner")) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/tripleaadheretola/view/ForgotPassword.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/triplea/ForgotPassword.fxml"));
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.setTitle("Reset Password");

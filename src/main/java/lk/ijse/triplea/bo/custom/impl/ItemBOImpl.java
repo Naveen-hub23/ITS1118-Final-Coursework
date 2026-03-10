@@ -3,9 +3,16 @@ package lk.ijse.triplea.bo.custom.impl;
 import lk.ijse.triplea.bo.custom.ItemBO;
 import lk.ijse.triplea.dao.DAOFactory;
 import lk.ijse.triplea.dao.custom.ItemDAO;
+import lk.ijse.triplea.db.DBConnection;
 import lk.ijse.triplea.dto.ItemDTO;
 import lk.ijse.triplea.entity.Item;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -68,5 +75,13 @@ public class ItemBOImpl implements ItemBO {
             dtos.add(new ItemDTO(i.getId(), i.getName(), i.getQty(), i.getUnitPrice()));
         }
         return dtos;
+    }
+
+    @Override
+    public void printItemReport() throws Exception {
+        InputStream reportStream = getClass().getResourceAsStream("/lk/ijse/triplea/reports/items.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DBConnection.getInstance().getConnection());
+        JasperViewer.viewReport(jasperPrint, false);
     }
 }

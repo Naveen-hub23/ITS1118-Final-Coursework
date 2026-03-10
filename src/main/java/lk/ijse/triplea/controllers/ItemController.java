@@ -198,7 +198,7 @@ public class ItemController implements Initializable {
     private void navigateTo(String fxmlPath, ActionEvent event) {
         try {
             // Updated path to reflect the new package structure
-            Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/tripleaadheretola/view" + fxmlPath));
+            Parent root = FXMLLoader.load(getClass().getResource("/lk/ijse/triplea" + fxmlPath));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
